@@ -16,7 +16,6 @@ export default function App() {
       </Switch>
       <main>
         <Header />
-        <SearchForm />
         <CharacterList />
       </main>
     </div>

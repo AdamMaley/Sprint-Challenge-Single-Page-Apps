@@ -1,28 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { useFormik, withFormik, Form, Field } from 'formik';
-import * as Yup from 'yup';
+import axios from "axios";
 
-export default function SearchForm() {
- 
-  const formik = useFormik({
-    initialValues: {
-      search: ''
-    },
-  });
 
+export default function SearchForm(props) {
+  const [input, setInput] = useState("")
+
+  useEffect(() => {
+    axios.get(`https://rickandmortyapi.com/api/character/?name=${input}`)
+  .then((res) => props.setCharacters(res.data.results))
+  
+  .catch((err) => console.log(err));
+  }, [input]);
+
+    
   return (
-    <section className="search-form">
-      <form onSubmit={formik.handleSubmit}>
-      <label htmlFor="firstName">Search Character: </label>
-      <input
-        id="search"
-        name="search"
-        type="text"
-        onChange={formik.handleChange}
-        value={formik.values.firstName}
-      />
-      <button type="submit">Search</button>
-    </form>
-    </section>
-  );
+    <div className='wrapper'>
+      <div className='search-bar-section'>
+        <form>
+          <input name="search" placeholder="Enter A Name" onChange={(e) => setInput(e.target.value)} />
+        </form>
+      </div>
+    </div>
+  )
+
 }
